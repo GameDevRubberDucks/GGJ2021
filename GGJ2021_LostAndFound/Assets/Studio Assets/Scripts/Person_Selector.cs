@@ -107,10 +107,12 @@ public class Person_Selector : MonoBehaviour
         Vector2 newPersonGridLoc = _person.GetDescriptor().m_gridLoc;
 
         // Check if the two grid locations are within one cell of eachother
-        if ((newPersonGridLoc.x - lastPersonGridLoc.x) <= 1)
+        if (Mathf.Abs((newPersonGridLoc.x - lastPersonGridLoc.x)) <= 1)
         {
-            if ((newPersonGridLoc.y - lastPersonGridLoc.y) <= 1)
+            if (Mathf.Abs((newPersonGridLoc.y - lastPersonGridLoc.y)) <= 1)
             {
+                Debug.Log(lastPersonGridLoc.ToString() + newPersonGridLoc.ToString());
+
                 // Return true if both axes are within one of eachother
                 return true;
             }
