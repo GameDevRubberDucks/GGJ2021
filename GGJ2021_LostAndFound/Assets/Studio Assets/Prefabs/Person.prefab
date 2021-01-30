@@ -180,8 +180,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: cda3c097c075b764c86ab7e6460cbc76, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -475,7 +475,7 @@ MonoBehaviour:
   - {r: 1, g: 0.80784315, b: 0.49411765, a: 1}
   - {r: 0.5, g: 0.4019608, b: 0.24509805, a: 1}
   - {r: 0.66806203, g: 1, b: 0.49411762, a: 1}
-  - {r: 0.33333334, g: 0.5, b: 0.24754903, a: 1}
+  - {r: 0.6666667, g: 1, b: 0.49411765, a: 1}
   - {r: 1, g: 0.56785965, b: 0.49411762, a: 1}
 --- !u!1 &2552216637542091314
 GameObject:
