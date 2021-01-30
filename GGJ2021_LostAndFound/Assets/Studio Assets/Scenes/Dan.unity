@@ -153,37 +153,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_traitDescs:
-  - m_name: Hair
-    m_imgs:
+  - m_trait: 0
+    m_variationImgs:
     - {fileID: 21300000, guid: 87f965ada56493247bfc001a05ee02fb, type: 3}
     - {fileID: 21300000, guid: 2beb3cbfa6c8e6543a91398054d22f14, type: 3}
     - {fileID: 21300000, guid: 39fcecf909f1433459342cbe42057114, type: 3}
     - {fileID: 21300000, guid: 11c0ab4fb44e33848b18a4bc4fc438a8, type: 3}
     - {fileID: 21300000, guid: 3276c2e370bb75646bb1e1122275e182, type: 3}
-  - m_name: Eyes
-    m_imgs:
+  - m_trait: 1
+    m_variationImgs:
     - {fileID: 21300000, guid: 6f2cdb8f70d6c9341b0bebfcff5812d3, type: 3}
     - {fileID: 21300000, guid: 0eed5a6d5a529954e81c2996844cbacb, type: 3}
     - {fileID: 21300000, guid: b2c267a8d6a4185489a2c917cd5d3eec, type: 3}
     - {fileID: 21300000, guid: d68db3de923590c4a93652c2e505ea21, type: 3}
     - {fileID: 21300000, guid: 5765bdc12123cdc44b49209b318d1e45, type: 3}
     - {fileID: 21300000, guid: 3b5f0e730fc1da943b13b84cd8371dc7, type: 3}
-  - m_name: Noses
-    m_imgs:
+  - m_trait: 2
+    m_variationImgs:
     - {fileID: 21300000, guid: 8f7212d3de341d64db98d824642eccd5, type: 3}
     - {fileID: 21300000, guid: 61ac525b674e40942aef61e40a1ee27c, type: 3}
     - {fileID: 21300000, guid: 5c75fe0c0ad43e946ad6a6822399a1a0, type: 3}
     - {fileID: 21300000, guid: fae4c335bc27c2846a93b5d045d2c45f, type: 3}
     - {fileID: 21300000, guid: 935a1976cd3d90d4199fa699598eee25, type: 3}
-  - m_name: Mouths
-    m_imgs:
-    - {fileID: 21300000, guid: 12b341f4341851a42bf82601bb4edce4, type: 3}
-    - {fileID: 21300000, guid: 2e495c31be0f1b34e88343afe593feb2, type: 3}
-    - {fileID: 21300000, guid: dda203f8c71274b4fbb570e6c463a9ab, type: 3}
-    - {fileID: 21300000, guid: 4f5bf1333e3398a40b934cf71a40b7a9, type: 3}
-    - {fileID: 21300000, guid: f3b32cde6b3efc6489733bc82eaa9c39, type: 3}
-  - m_name: Shirts
-    m_imgs:
+  - m_trait: 0
+    m_variationImgs:
+    - {fileID: 21300000, guid: 87f965ada56493247bfc001a05ee02fb, type: 3}
+    - {fileID: 21300000, guid: 2beb3cbfa6c8e6543a91398054d22f14, type: 3}
+    - {fileID: 21300000, guid: 11c0ab4fb44e33848b18a4bc4fc438a8, type: 3}
+    - {fileID: 21300000, guid: 39fcecf909f1433459342cbe42057114, type: 3}
+    - {fileID: 21300000, guid: 3276c2e370bb75646bb1e1122275e182, type: 3}
+  - m_trait: 4
+    m_variationImgs:
     - {fileID: 21300000, guid: 5a60fbe55b10dc24d95d457093c3f259, type: 3}
     - {fileID: 21300000, guid: c4c8d3d293b82954290f880c9a60075f, type: 3}
     - {fileID: 21300000, guid: 9dd583425e31edb4dae479d44cd2edd1, type: 3}

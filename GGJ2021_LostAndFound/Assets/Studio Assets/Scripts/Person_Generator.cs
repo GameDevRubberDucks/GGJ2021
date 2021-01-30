@@ -2,16 +2,16 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [System.Serializable]
-public struct Person_TraitDesc
+public struct Person_TraitVariations
 {
-    public string m_name;
-    public Sprite[] m_imgs;
+    public Person_Trait m_trait;
+    public Sprite[] m_variationImgs;
 }
 
 public class Person_Generator : MonoBehaviour
 {
     //--- Public Variables ---//
-    public List<Person_TraitDesc> m_traitDescs = new List<Person_TraitDesc>((int)Person_Trait.Num_Traits);
+    public List<Person_TraitVariations> m_traitDescs = new List<Person_TraitVariations>((int)Person_Trait.Num_Traits);
 
 
 
@@ -54,12 +54,18 @@ public class Person_Generator : MonoBehaviour
         Person_Descriptor newDesc = new Person_Descriptor();
 
         // Fill the descriptor with random values for each of the traits
-        newDesc.m_selectedTraits[(int)Person_Trait.Hairstyle]   = Random.Range(0, m_traitDescs[(int)Person_Trait.Hairstyle].m_imgs.Length);
-        newDesc.m_selectedTraits[(int)Person_Trait.Eyes]        = Random.Range(0, m_traitDescs[(int)Person_Trait.Eyes].m_imgs.Length);
-        newDesc.m_selectedTraits[(int)Person_Trait.Nose]        = Random.Range(0, m_traitDescs[(int)Person_Trait.Nose].m_imgs.Length);
-        newDesc.m_selectedTraits[(int)Person_Trait.Mouth]       = Random.Range(0, m_traitDescs[(int)Person_Trait.Mouth].m_imgs.Length);
-        newDesc.m_selectedTraits[(int)Person_Trait.Shirt]       = Random.Range(0, m_traitDescs[(int)Person_Trait.Shirt].m_imgs.Length);
+        for (int traitIndex = 0; traitIndex < (int)Person_Trait.Num_Traits; traitIndex++)
+        {
+            // Randomly select a variation of the trait from within the list of image variations
+            int randomVariationIndex = Random.Range(0, m_traitDescs[traitIndex].m_variationImgs.Length);
+            Sprite randomVariationImg = m_traitDescs[traitIndex].m_variationImgs[randomVariationIndex];
 
+            // Assign the image to the trait in the descriptor
+            newDesc.m_selectedTraits[traitIndex].m_trait = (Person_Trait)traitIndex;
+            newDesc.m_selectedTraits[traitIndex].m_variationIndex = randomVariationIndex;
+            newDesc.m_selectedTraits[traitIndex].m_variationImg = randomVariationImg;
+        }
+       
         // Return the generated descriptor
         return newDesc;
     }
