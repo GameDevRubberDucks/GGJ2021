@@ -1,12 +1,13 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
+using DG;
 
 public class Grid_Manager : MonoBehaviour
 {
     //--- Public Variables ---//
     public int m_gridSize;
     public float m_gridCellSize;
+    public float m_gridSpacing;
 
 
 
@@ -121,7 +122,7 @@ public class Grid_Manager : MonoBehaviour
     {
         // Determine the position of the bottom left of the grid so all objects can be placed relative to it
         Vector2 gridParentPos = this.GetComponent<RectTransform>().anchoredPosition;
-        float halfGridSize = (m_gridCellSize * m_gridSize / 2.0f) - (m_gridCellSize / 2.0f);
+        float halfGridSize = (m_gridCellSize * m_gridSize / 2.0f) - (m_gridCellSize / 2.0f) + (m_gridSpacing * m_gridSize / 2.0f) - (m_gridSpacing / 2.0f);
         Vector2 spawnedGridBottomLeft = gridParentPos - new Vector2(halfGridSize, halfGridSize);
 
         // Loop through all of the people and place them at the correct position in the world
@@ -135,13 +136,18 @@ public class Grid_Manager : MonoBehaviour
                 // Change its name so we know which col and row it is
                 person.name = "Person (Col: " + col.ToString() + " Row: " + row.ToString() + ")";
 
+                // Apply the grid location to the person so it has it in the data
+                person.GetDescriptor().m_gridLoc = new Vector2Int(col, row);
+
                 // Update the person's position so it matches correctly
-                Vector2 posOffset = new Vector2(col * m_gridCellSize, row * m_gridCellSize);
+                Vector2 posOffset = new Vector2(col * (m_gridCellSize + m_gridSpacing), row * (m_gridCellSize + m_gridSpacing));
                 Vector2 finalPosition = spawnedGridBottomLeft + posOffset;
-                person.GetComponent<RectTransform>().anchoredPosition = finalPosition;
+                //person.GetComponent<RectTransform>().anchoredPosition = finalPosition;
+                DG.Tweening.DOTweenModuleUI.DOAnchorPos(person.GetComponent<RectTransform>(), finalPosition, 0.5f);
 
                 // Adjust the person's width and height so it matches the grid cell size
                 person.GetComponent<RectTransform>().sizeDelta = new Vector2(m_gridCellSize, m_gridCellSize);
+
             }
         }
     }

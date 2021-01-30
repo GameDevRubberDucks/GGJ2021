@@ -23,6 +23,7 @@ public class Person_Descriptor
 {
     //--- Public Variables ---//
     public Person_TraitImg[] m_selectedTraits;
+    public Vector2Int m_gridLoc;
 
 
 
@@ -30,6 +31,7 @@ public class Person_Descriptor
     public Person_Descriptor()
     {
         m_selectedTraits = new Person_TraitImg[(int)Person_Trait.Num_Traits];
+        m_gridLoc = Vector2Int.zero;
     }
 
     
