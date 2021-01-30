@@ -13,7 +13,7 @@ public class Person : MonoBehaviour
 
 
 
-    //--- Public Methods ---//
+    //--- Methods ---//
     public void ApplyDescription(Person_Descriptor _descriptor)
     {
         // Store the new descriptor
