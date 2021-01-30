@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
+using DG;
 
 public class Grid_Manager : MonoBehaviour
 {
@@ -142,10 +142,12 @@ public class Grid_Manager : MonoBehaviour
                 // Update the person's position so it matches correctly
                 Vector2 posOffset = new Vector2(col * (m_gridCellSize + m_gridSpacing), row * (m_gridCellSize + m_gridSpacing));
                 Vector2 finalPosition = spawnedGridBottomLeft + posOffset;
-                person.GetComponent<RectTransform>().anchoredPosition = finalPosition;
+                //person.GetComponent<RectTransform>().anchoredPosition = finalPosition;
+                DG.Tweening.DOTweenModuleUI.DOAnchorPos(person.GetComponent<RectTransform>(), finalPosition, 0.5f);
 
                 // Adjust the person's width and height so it matches the grid cell size
                 person.GetComponent<RectTransform>().sizeDelta = new Vector2(m_gridCellSize, m_gridCellSize);
+
             }
         }
     }

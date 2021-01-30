@@ -71,7 +71,12 @@ public class Person_Selector : MonoBehaviour
         {
             // Instead, if they are the second to last person in the chain, we need to eliminate the current chain end
             // This is because the player is backtracking and trying to undo a bit of their chain
-            if (m_selectedPeople.IndexOf(_person) == m_selectedPeople.Count - 2)
+            //if (m_selectedPeople.IndexOf(_person) == m_selectedPeople.Count - 2)
+            //    RemoveFromSelection(m_selectedPeople[m_selectedPeople.Count - 1]);
+
+            // Instead, we should clear the selection all the way to that point
+            int indexOfPerson = m_selectedPeople.IndexOf(_person);
+            while (m_selectedPeople.Count > (indexOfPerson + 1))
                 RemoveFromSelection(m_selectedPeople[m_selectedPeople.Count - 1]);
         }
 
@@ -148,7 +153,10 @@ public class Person_Selector : MonoBehaviour
         FindObjectOfType<Grid_Manager>().RemoveAllFromGrid(m_selectedPeople);
 
         foreach (var person in m_selectedPeople)
-            Destroy(person.gameObject);
+        {
+            Destroy(person.gameObject, 1.0f);
+            person.GetComponentInChildren<Animator>().SetTrigger("Delete");
+        }
 
         FindObjectOfType<Person_Generator>().GenerateToFillGrid();
 
