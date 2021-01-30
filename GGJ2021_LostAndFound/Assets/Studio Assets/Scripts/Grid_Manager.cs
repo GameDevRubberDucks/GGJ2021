@@ -132,6 +132,9 @@ public class Grid_Manager : MonoBehaviour
                 // Grab the ref to the person
                 var person = m_gridCols[col][row];
 
+                // Change its name so we know which col and row it is
+                person.name = "Person (Col: " + col.ToString() + " Row: " + row.ToString() + ")";
+
                 // Update the person's position so it matches correctly
                 Vector2 posOffset = new Vector2(col * m_gridCellSize, row * m_gridCellSize);
                 Vector2 finalPosition = spawnedGridBottomLeft + posOffset;
