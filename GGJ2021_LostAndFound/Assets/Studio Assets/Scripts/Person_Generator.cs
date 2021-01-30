@@ -12,7 +12,7 @@ public class Person_Generator : MonoBehaviour
 {
     //--- Public Variables ---//
     public GameObject m_personPrefab;
-    public Transform m_personSceneParent;
+    public Grid_Manager m_gridManager;
     public List<Person_TraitVariations> m_traitDescs = new List<Person_TraitVariations>((int)Person_Trait.Num_Traits);
 
 
@@ -29,6 +29,9 @@ public class Person_Generator : MonoBehaviour
         // This is the person that nobody else can look exactly like
         GenerateTargetPerson();
         Debug.Log("Target Person:\n" + m_targetPersonDesc.ToString());
+
+        // Spawn all of the necessary people to fill the grid
+        GenerateToFillGrid();
     }
 
     private void Update()
@@ -40,7 +43,7 @@ public class Person_Generator : MonoBehaviour
 
 
 
-    //--- Public Methods ---//
+    //--- Methods ---//
     public void GenerateTargetPerson()
     {
         // Randomly generate the target's description
@@ -49,7 +52,7 @@ public class Person_Generator : MonoBehaviour
         m_targetPersonDesc = RandomlyGenerate();
     }
 
-    public void GenerateNewPerson()
+    public Person GenerateNewPerson()
     {
         // Randomly generate a new person. However, it cannot be completely equivalent to the target person
         // So, if we happen to generate an identical person, retry until we get it right
@@ -62,8 +65,25 @@ public class Person_Generator : MonoBehaviour
         while (m_targetPersonDesc.IsEquivalent(newDesc));
 
         // Spawn a new person
-        Person newPerson = Instantiate(m_personPrefab, m_personSceneParent).GetComponent<Person>();
+        Person newPerson = Instantiate(m_personPrefab, m_gridManager.transform).GetComponent<Person>();
         newPerson.ApplyDescription(newDesc);
+
+        // Return the person
+        return newPerson;
+    }
+
+    public void GenerateToFillGrid()
+    {
+        // Find out how many slots are empty within the grid
+        int numSlots = m_gridManager.GetNumEmptyGridLocations();
+
+        // Generate enough people to fill every one of the slots
+        List<Person> newPeople = new List<Person>();
+        for (int i = 0; i < numSlots; i++)
+            newPeople.Add(GenerateNewPerson());
+
+        // Add all of them to the grid
+        m_gridManager.PlaceAllOnGrid(newPeople);
     }
 
 
