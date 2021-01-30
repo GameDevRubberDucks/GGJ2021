@@ -428,6 +428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_gridSize: 5
   m_gridCellSize: 100
+  m_gridSpacing: 10
 --- !u!1001 &3977699837219985245
 PrefabInstance:
   m_ObjectHideFlags: 0
