@@ -119,8 +119,13 @@ public class Grid_Manager : MonoBehaviour
 
     public void UpdateGridPlacements()
     {
+        // Determine the position of the bottom left of the grid so all objects can be placed relative to it
+        Vector2 gridParentPos = this.GetComponent<RectTransform>().anchoredPosition;
+        float halfGridSize = (m_gridCellSize * m_gridSize / 2.0f) - (m_gridCellSize / 2.0f);
+        Vector2 spawnedGridBottomLeft = gridParentPos - new Vector2(halfGridSize, halfGridSize);
+
         // Loop through all of the people and place them at the correct position in the world
-        for(int col = 0; col < m_gridCols.Count; col++)
+        for (int col = 0; col < m_gridCols.Count; col++)
         {
             for(int row = 0; row < m_gridCols[col].Count; row++)
             {
@@ -128,8 +133,9 @@ public class Grid_Manager : MonoBehaviour
                 var person = m_gridCols[col][row];
 
                 // Update the person's position so it matches correctly
-                Vector2 position = new Vector2(col * m_gridCellSize, row * m_gridCellSize);
-                person.GetComponent<RectTransform>().anchoredPosition = position;
+                Vector2 posOffset = new Vector2(col * m_gridCellSize, row * m_gridCellSize);
+                Vector2 finalPosition = spawnedGridBottomLeft + posOffset;
+                person.GetComponent<RectTransform>().anchoredPosition = finalPosition;
 
                 // Adjust the person's width and height so it matches the grid cell size
                 person.GetComponent<RectTransform>().sizeDelta = new Vector2(m_gridCellSize, m_gridCellSize);
