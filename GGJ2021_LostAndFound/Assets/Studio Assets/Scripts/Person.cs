@@ -36,7 +36,7 @@ public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     {
         // Init the private variables
         m_selector = FindObjectOfType<Person_Selector>();
-        m_selectedState = Person_SelectedState.Unselected;
+        SetSelectionState(Person_SelectedState.Unselected);
     }
 
 

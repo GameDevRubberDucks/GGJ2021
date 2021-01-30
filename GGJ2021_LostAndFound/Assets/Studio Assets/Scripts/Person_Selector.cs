@@ -3,7 +3,12 @@ using System.Collections.Generic;
 
 public class Person_Selector : MonoBehaviour
 {
+    //--- Public Variables ---//
+
+
+
     //--- Private Variables ---//
+    private LineRenderer m_selectionLineRenderer;
     private List<Person> m_selectedPeople;
     [SerializeField]private Person_Trait m_currentSelectingTrait; // TEMP: Serialized for now, will need to be connected to the spinner
     private int m_currentSelectingVariation;
@@ -14,8 +19,12 @@ public class Person_Selector : MonoBehaviour
     private void Awake()
     {
         // Init the private variables
+        m_selectionLineRenderer = GetComponent<LineRenderer>();
         m_selectedPeople = new List<Person>();
         m_currentSelectingVariation = -1;
+
+        // Clear the line renderer by default
+        UpdateSelectionLine();
     }
 
 
@@ -52,6 +61,7 @@ public class Person_Selector : MonoBehaviour
         }
 
         m_selectedPeople.Clear();
+        UpdateSelectionLine();
     }
 
     public void TryToAddSelection(Person _person)
@@ -91,6 +101,8 @@ public class Person_Selector : MonoBehaviour
         // Add the person and set their selection state accordingly
         m_selectedPeople.Add(_newPerson);
         _newPerson.SetSelectionState(_firstPerson ? Person_SelectedState.Start_Of_Chain : Person_SelectedState.Part_Of_Chain);
+
+        UpdateSelectionLine();
     }
 
     private void RemoveFromSelection(Person _toRemove)
@@ -98,6 +110,8 @@ public class Person_Selector : MonoBehaviour
         // Remove the person and set their selection state accordingly
         m_selectedPeople.Remove(_toRemove);
         _toRemove.SetSelectionState(Person_SelectedState.Unselected);
+
+        UpdateSelectionLine();
     }
 
     private bool CheckDistanceToChainEnd(Person _person)
@@ -139,5 +153,15 @@ public class Person_Selector : MonoBehaviour
         FindObjectOfType<Person_Generator>().GenerateToFillGrid();
 
         ClearSelection();
+    }
+
+    private void UpdateSelectionLine()
+    {
+        // Update the line renderer to fit the new number of selection points
+        m_selectionLineRenderer.positionCount = m_selectedPeople.Count;
+
+        // Set all of the points in the line
+        for (int i = 0; i < m_selectedPeople.Count; i++)
+            m_selectionLineRenderer.SetPosition(i, m_selectedPeople[i].transform.position);
     }
 }

@@ -108,7 +108,7 @@ RectTransform:
   - {fileID: 2552216637611361972}
   - {fileID: 2552216636601301880}
   m_Father: {fileID: 4537519357921039277}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 2552216636282620793}
   - component: {fileID: 2552216636282620742}
   m_Layer: 5
-  m_Name: Person_Background
+  m_Name: Person_Outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,7 +145,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4537519357921039277}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.80726016, b: 0.49411762, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -220,7 +220,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4537519357921039277}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -472,7 +472,7 @@ MonoBehaviour:
   - {fileID: 2552216636601301883}
   m_selectionStateIndicator: {fileID: 2552216636282620742}
   m_indicatorColours:
-  - {r: 1, g: 0.80784315, b: 0.49411765, a: 1}
+  - {r: 1, g: 0.80784315, b: 0.49411765, a: 0}
   - {r: 0.5, g: 0.4019608, b: 0.24509805, a: 1}
   - {r: 0.66806203, g: 1, b: 0.49411762, a: 1}
   - {r: 0.6666667, g: 1, b: 0.49411765, a: 1}
@@ -655,9 +655,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2552216636282620743}
   - {fileID: 2552216636530036820}
   - {fileID: 2552216635626992076}
+  - {fileID: 2552216636282620743}
   m_Father: {fileID: 2552216636883619390}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
