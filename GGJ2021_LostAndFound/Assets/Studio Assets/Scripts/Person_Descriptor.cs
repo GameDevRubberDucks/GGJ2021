@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Text;
+using UnityEngine;
 
 public enum Person_Trait
 {
@@ -45,5 +46,15 @@ public class Person_Descriptor
         
         // If there are no differences at all, return true since they are completely equivalent
         return true;
+    }
+
+    public override string ToString()
+    {
+        StringBuilder str = new StringBuilder();
+
+        foreach (var trait in m_selectedTraits)
+            str.Append(trait.m_trait.ToString() + ": " + trait.m_variationIndex.ToString() + "   ");
+
+        return str.ToString();
     }
 }

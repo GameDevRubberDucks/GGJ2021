@@ -11,12 +11,32 @@ public struct Person_TraitVariations
 public class Person_Generator : MonoBehaviour
 {
     //--- Public Variables ---//
+    public GameObject m_personPrefab;
+    public Transform m_personSceneParent;
     public List<Person_TraitVariations> m_traitDescs = new List<Person_TraitVariations>((int)Person_Trait.Num_Traits);
 
 
 
     //--- Private Variables ---//
     private Person_Descriptor m_targetPersonDesc;
+
+
+
+    //--- Unity Methods ---//
+    private void Start()
+    {
+        // Generate the target person for this round
+        // This is the person that nobody else can look exactly like
+        GenerateTargetPerson();
+        Debug.Log("Target Person:\n" + m_targetPersonDesc.ToString());
+    }
+
+    private void Update()
+    {
+        // TEMP: Spawn a new person by pressing space
+        if (Input.GetKeyDown(KeyCode.Space))
+            GenerateNewPerson();
+    }
 
 
 
@@ -29,7 +49,7 @@ public class Person_Generator : MonoBehaviour
         m_targetPersonDesc = RandomlyGenerate();
     }
 
-    public Person_Descriptor GenerateNewPersonDesc()
+    public void GenerateNewPerson()
     {
         // Randomly generate a new person. However, it cannot be completely equivalent to the target person
         // So, if we happen to generate an identical person, retry until we get it right
@@ -39,10 +59,11 @@ public class Person_Generator : MonoBehaviour
         do {
             newDesc = RandomlyGenerate();
         }
-        while (!m_targetPersonDesc.IsEquivalent(newDesc));
+        while (m_targetPersonDesc.IsEquivalent(newDesc));
 
-        // Return the newly generated person
-        return newDesc;
+        // Spawn a new person
+        Person newPerson = Instantiate(m_personPrefab, m_personSceneParent).GetComponent<Person>();
+        newPerson.ApplyDescription(newDesc);
     }
 
 

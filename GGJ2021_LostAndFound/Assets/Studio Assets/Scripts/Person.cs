@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Person : MonoBehaviour
 {
     //--- Public Variables ---//
-    public SpriteRenderer[] m_traitRenderers = new SpriteRenderer[(int)Person_Trait.Num_Traits];
+    public Image[] m_traitRenderers = new Image[(int)Person_Trait.Num_Traits];
 
 
 
