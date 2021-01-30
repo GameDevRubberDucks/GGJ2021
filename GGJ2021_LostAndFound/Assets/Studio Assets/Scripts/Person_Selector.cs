@@ -36,18 +36,21 @@ public class Person_Selector : MonoBehaviour
 
     public void SubmitSelection()
     {
-        // TODO: Submit the actual selection to the game logic and scoring systems
-        // ...
-
-        // Clear the selection
-        ClearSelection();
+        // If there is only one person selected, we can't submit so just clear the selection
+        if (m_selectedPeople.Count <= 1)
+            ClearSelection(true);
+        else
+            DeleteAllInSelection();
     }
 
-    public void ClearSelection()
+    public void ClearSelection(bool _markAsUnselected = false)
     {
-        // Set all of the selection states to be unselected and then clear them
-        foreach (var person in m_selectedPeople)
-            person.SetSelectionState(Person_SelectedState.Unselected);
+        if (_markAsUnselected)
+        {
+            foreach (var person in m_selectedPeople)
+                person.SetSelectionState(Person_SelectedState.Unselected);
+        }
+
         m_selectedPeople.Clear();
     }
 
@@ -111,9 +114,7 @@ public class Person_Selector : MonoBehaviour
         {
             if (Mathf.Abs((newPersonGridLoc.y - lastPersonGridLoc.y)) <= 1)
             {
-                Debug.Log(lastPersonGridLoc.ToString() + newPersonGridLoc.ToString());
-
-                // Return true if both axes are within one of eachother
+                // Return true if both axes are within one cell of eachother
                 return true;
             }
         }
@@ -126,5 +127,17 @@ public class Person_Selector : MonoBehaviour
     {
         // If the person has the exact same variation for the currently selecting trait, we can add them to the chain
         return m_currentSelectingVariation == _person.GetDescriptor().m_selectedTraits[(int)m_currentSelectingTrait].m_variationIndex;
+    }
+
+    private void DeleteAllInSelection()
+    {
+        FindObjectOfType<Grid_Manager>().RemoveAllFromGrid(m_selectedPeople);
+
+        foreach (var person in m_selectedPeople)
+            Destroy(person.gameObject);
+
+        FindObjectOfType<Person_Generator>().GenerateToFillGrid();
+
+        ClearSelection();
     }
 }
