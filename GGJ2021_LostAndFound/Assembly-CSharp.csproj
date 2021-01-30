@@ -60,6 +60,7 @@
     <Compile Include="Assets\Studio Assets\Scripts\Person_Descriptor.cs" />
     <Compile Include="Assets\Studio Assets\Scripts\Person.cs" />
     <Compile Include="Assets\Studio Assets\Scripts\Person_Generator.cs" />
+    <Compile Include="Assets\Studio Assets\Scripts\Person_Selector.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Studio Assets\Audio\PLACEHOLDER.txt" />
