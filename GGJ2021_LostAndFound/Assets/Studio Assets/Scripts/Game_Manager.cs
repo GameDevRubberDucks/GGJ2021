@@ -94,7 +94,7 @@ public class Game_Manager : MonoBehaviour
         // Update the UI to show the target trait and variation
         var targetDesc = m_personGenerator.GetTargetPersonDesc();
         var targetVariationImg = targetDesc.m_selectedTraits[(int)m_targetTrait].m_variationImg;
-        m_tempUI.UpdateTargetVariation(targetVariationImg);
+        m_tempUI.UpdateTargetVariation(targetVariationImg, m_personGenerator.m_possibleCharColours[targetDesc.m_selectedTraits[(int)m_targetTrait].m_variationIndex]);
     }
 
     public void SpinForNewSelectionTrait()

@@ -51,9 +51,10 @@ public class Game_TempUI : MonoBehaviour
 
     }
 
-    public void UpdateTargetVariation(Sprite _targetVariation)
+    public void UpdateTargetVariation(Sprite _targetVariation, Color _color)
     {
         m_imgTargetVariation.sprite = _targetVariation;
+        m_imgTargetVariation.color = _color;
     }
 
     public void UpdateSelectableTrait(Person_Trait _selectTrait)
