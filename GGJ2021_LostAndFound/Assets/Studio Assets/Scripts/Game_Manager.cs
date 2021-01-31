@@ -66,7 +66,8 @@ public class Game_Manager : MonoBehaviour
     {
         // Initialize all of the UI elements to show the base values
         m_tempUI.UpdateScoreUI(m_currentScore);
-        m_tempUI.UpdateHeartCountUI(m_currentHeartCount, m_progressTowardsNextHeart, m_peopleUntilExtraHeart);
+        m_tempUI.InitHeartCountUI(m_numStartingHearts);
+        //m_tempUI.UpdateHeartCountUI(m_currentHeartCount, m_progressTowardsNextHeart, m_peopleUntilExtraHeart);
         m_tempUI.UpdateTraitProgress(m_traitProgresses, m_peopleUntilTraitComplete);
         UpdateMugshotUI();
     }
@@ -201,6 +202,9 @@ public class Game_Manager : MonoBehaviour
                 // If we are JUST NOW over the heart limit, we should cap progress at 0
                 // Otherwise, we should save the remainder over for the next one
                 m_progressTowardsNextHeart = (m_currentHeartCount >= m_maxHearts) ? 0 : m_progressTowardsNextHeart % m_peopleUntilExtraHeart;
+
+                // Play feedback animation
+                m_tempUI.ToggleHeart(true, m_currentHeartCount - 1);
             }
         }
 
@@ -217,7 +221,11 @@ public class Game_Manager : MonoBehaviour
 
         // If nobody has the trait, we should lose one life
         if (loseLife)
+        {
             m_currentHeartCount--;
+            // Play feedback animation
+            m_tempUI.ToggleHeart(false, m_currentHeartCount);
+        }
 
         // Update the UI
         m_tempUI.UpdateHeartCountUI(m_currentHeartCount, m_progressTowardsNextHeart, m_peopleUntilExtraHeart);

@@ -36,6 +36,22 @@ public class Game_TempUI : MonoBehaviour
         m_txtScore.text = _newScore.ToString();
     }
 
+    public void InitHeartCountUI(int _startHeartCount)
+    {
+        for (int i = 0; i < heartContainers.Length; i++)
+        {
+            if (i < _startHeartCount)
+                heartContainers[i].GetComponent<Animator>().SetTrigger("NewHeart");
+        }
+    }
+
+    public void ToggleHeart(bool _filled, int _heartID)
+    {
+        var anim = heartContainers[_heartID].GetComponent<Animator>();
+        string triggerName = (_filled) ? "NewHeart" : "LostHeart";
+        anim.SetTrigger(triggerName);
+    }
+
     public void UpdateHeartCountUI(int _numHearts, int _progressTowardsNextHeart, int _peopleUntilNextHeart)
     {
         m_txtProgressTowardsNextHeart.text = _progressTowardsNextHeart.ToString() + "\n---\n" + _peopleUntilNextHeart.ToString();
