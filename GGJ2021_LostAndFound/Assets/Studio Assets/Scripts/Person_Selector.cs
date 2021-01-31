@@ -3,14 +3,12 @@ using System.Collections.Generic;
 
 public class Person_Selector : MonoBehaviour
 {
-    //--- Public Variables ---//
-
-
-
     //--- Private Variables ---//
+    private Game_Manager m_gameManager;
+    private Game_TempUI m_tempUI;
     private LineRenderer m_selectionLineRenderer;
     private List<Person> m_selectedPeople;
-    [SerializeField]private Person_Trait m_currentSelectingTrait; // TEMP: Serialized for now, will need to be connected to the spinner
+    private Person_Trait m_currentSelectingTrait;
     private int m_currentSelectingVariation;
 
 
@@ -19,6 +17,8 @@ public class Person_Selector : MonoBehaviour
     private void Awake()
     {
         // Init the private variables
+        m_gameManager = FindObjectOfType<Game_Manager>();
+        m_tempUI = FindObjectOfType<Game_TempUI>();
         m_selectionLineRenderer = GetComponent<LineRenderer>();
         m_selectedPeople = new List<Person>();
         m_currentSelectingVariation = -1;
@@ -46,10 +46,16 @@ public class Person_Selector : MonoBehaviour
     public void SubmitSelection()
     {
         // If there is only one person selected, we can't submit so just clear the selection
+        // Otherwise, we should send the selection to the game manager to calculate points, lives, etc
         if (m_selectedPeople.Count <= 1)
+        {
             ClearSelection(true);
+        }
         else
+        {
+            m_gameManager.HandleChainCompletion(m_selectedPeople);
             DeleteAllInSelection();
+        }
     }
 
     public void ClearSelection(bool _markAsUnselected = false)
@@ -69,11 +75,6 @@ public class Person_Selector : MonoBehaviour
         // If the person is in the chain already, we can't add them to the selection 
         if (m_selectedPeople.Contains(_person))
         {
-            // Instead, if they are the second to last person in the chain, we need to eliminate the current chain end
-            // This is because the player is backtracking and trying to undo a bit of their chain
-            //if (m_selectedPeople.IndexOf(_person) == m_selectedPeople.Count - 2)
-            //    RemoveFromSelection(m_selectedPeople[m_selectedPeople.Count - 1]);
-
             // Instead, we should clear the selection all the way to that point
             int indexOfPerson = m_selectedPeople.IndexOf(_person);
             while (m_selectedPeople.Count > (indexOfPerson + 1))
@@ -96,6 +97,21 @@ public class Person_Selector : MonoBehaviour
     public bool IsSelecting()
     {
         return m_selectedPeople.Count > 0;
+    }
+
+    public void SetNewSelectingTrait(Person_Trait _newTrait)
+    {
+        // Update the UI to show what trait we can select with
+        m_tempUI.UpdateSelectableTrait(_newTrait);
+        m_currentSelectingTrait = _newTrait;
+    }
+
+    public void SkipTurn()
+    {
+        // We can force the turn to skip by submitting an empty chain
+        // This should really only be used by the player if the can't find a match
+        // This should be *really* rare, but if we don't have it, the game would soft-lock
+        m_gameManager.HandleChainCompletion(new List<Person>());
     }
 
 

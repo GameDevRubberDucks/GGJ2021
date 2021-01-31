@@ -19,26 +19,15 @@ public class Person_Generator : MonoBehaviour
 
     //--- Private Variables ---//
     private Person_Descriptor m_targetPersonDesc;
+    private bool m_shouldSpawnTarget;
 
 
 
     //--- Unity Methods ---//
-    private void Start()
+    private void Awake()
     {
-        // Generate the target person for this round
-        // This is the person that nobody else can look exactly like
-        GenerateTargetPerson();
-        Debug.Log("Target Person:\n" + m_targetPersonDesc.ToString());
-
-        // Spawn all of the necessary people to fill the grid
-        GenerateToFillGrid();
-    }
-
-    private void Update()
-    {
-        // TEMP: Spawn a new person by pressing space
-        if (Input.GetKeyDown(KeyCode.Space))
-            GenerateNewPerson();
+        // Init the private variables
+        m_shouldSpawnTarget = false;
     }
 
 
@@ -50,19 +39,31 @@ public class Person_Generator : MonoBehaviour
         // This is the information used to describe the final target and therefore can only exist ONCE
         // No other generated people can have the exact same set of traits
         m_targetPersonDesc = RandomlyGenerate();
+        m_targetPersonDesc.m_isFinalTarget = true;
     }
 
-    public Person GenerateNewPerson()
+    public Person GenerateNewPerson(bool _makeFinalTarget = false)
     {
-        // Randomly generate a new person. However, it cannot be completely equivalent to the target person
-        // So, if we happen to generate an identical person, retry until we get it right
-        // This is kind of an iffy way to do this since it could *possibly* get stuck here for a while
-        // But it is very unlikely that this loop will trigger more than once 
-        Person_Descriptor newDesc = new Person_Descriptor();
-        do {
-            newDesc = RandomlyGenerate();
+        // Either use the final target descriptor or just use a blank one
+        Person_Descriptor newDesc = null;
+
+        // Determine the traits that will make up this person
+        if (_makeFinalTarget)
+        {
+            // If we are creating the final target, just use their traits
+            newDesc = m_targetPersonDesc;
         }
-        while (m_targetPersonDesc.IsEquivalent(newDesc));
+        else
+        {
+            // If not using the target, randomly generate a new person. However, it cannot be completely equivalent to the target person
+            // So, if we happen to generate an identical person, retry until we get it right
+            // This is kind of an iffy way to do this since it could *possibly* get stuck here for a couple of loop iterations
+            // But it is very unlikely that this loop will trigger more than once 
+            do {
+                newDesc = RandomlyGenerate();
+            }
+            while (m_targetPersonDesc.IsEquivalent(newDesc));
+        }
 
         // Spawn a new person
         Person newPerson = Instantiate(m_personPrefab, m_gridManager.transform).GetComponent<Person>();
@@ -79,11 +80,43 @@ public class Person_Generator : MonoBehaviour
 
         // Generate enough people to fill every one of the slots
         List<Person> newPeople = new List<Person>();
-        for (int i = 0; i < numSlots; i++)
-            newPeople.Add(GenerateNewPerson());
+
+        // If we need to spawn the final target, we should randomly place them into the list of new people
+        // Otherwise, just spawn people as normal
+        if (m_shouldSpawnTarget)
+        {
+            // Randomly select the placement of the final person
+            int finalTargetIndex = Random.Range(0, numSlots);
+
+            // Fill in the spots before the target with randomly generated people
+            for (int i = 0; i < finalTargetIndex; i++)
+                newPeople.Add(GenerateNewPerson(false));
+
+            // Place the target
+            newPeople.Add(GenerateNewPerson(true));
+
+            // Fill in the remaining spots after with more randomly generated people
+            for (int i = finalTargetIndex + 1; i < numSlots; i++)
+                newPeople.Add(GenerateNewPerson(false));
+
+            // Reset the flag
+            m_shouldSpawnTarget = false;
+        }
+        else
+        {
+            // If not making the final target on this one, just randomize everyone
+            for (int i = 0; i < numSlots; i++)
+                newPeople.Add(GenerateNewPerson());
+        }
 
         // Add all of them to the grid
         m_gridManager.PlaceAllOnGrid(newPeople);
+    }
+
+    public void SpawnFinalTarget()
+    {
+        // Set the flag so when we next generate people, we include the final target
+        m_shouldSpawnTarget = true;
     }
 
 
@@ -110,4 +143,9 @@ public class Person_Generator : MonoBehaviour
         // Return the generated descriptor
         return newDesc;
     }
+
+
+
+    //--- Getters ---//
+    public Person_Descriptor GetTargetPersonDesc() { return m_targetPersonDesc; }
 }
