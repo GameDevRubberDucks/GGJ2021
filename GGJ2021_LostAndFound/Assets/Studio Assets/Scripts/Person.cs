@@ -18,6 +18,8 @@ public enum Person_SelectedState
 public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     //--- Public Variables ---//
+    public Image m_headImg;
+    public Image m_bodyImg;
     public Image[] m_traitRenderers = new Image[(int)Person_Trait.Num_Traits];
     public Image m_selectionStateIndicator;
     public Color[] m_indicatorColours = new Color[(int)Person_SelectedState.Num_States];
@@ -53,6 +55,17 @@ public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         m_targetPersonIndicator.gameObject.SetActive(this.m_descriptor.m_isFinalTarget);
         foreach (var traitInfo in m_descriptor.m_selectedTraits)
             m_traitRenderers[(int)traitInfo.m_trait].sprite = traitInfo.m_variationImg;
+
+        // Apply the colours to the head and body
+        m_headImg.color = _descriptor.m_colour;
+        m_bodyImg.color = _descriptor.m_colour;
+
+        // Apply the colours to all of the traits, EXCEPT for the eyes
+        for (int i = 0; i < m_traitRenderers.Length; i++)
+        {
+            if ((Person_Trait)i != Person_Trait.Eyes)
+                m_traitRenderers[i].color = _descriptor.m_colour;
+        }
     }
 
     public void SetSelectionState(Person_SelectedState _state)

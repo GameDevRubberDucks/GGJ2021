@@ -7,6 +7,7 @@ public class Game_Manager : MonoBehaviour
     [Header("Game Settings")]
     public int m_numStartingHearts;
     public int m_peopleUntilExtraHeart;
+    public int m_maxHearts;
     public int m_peopleUntilTraitComplete;
     public int m_scorePerPerson;
     public float m_targetVariationMultiplier;
@@ -118,31 +119,6 @@ public class Game_Manager : MonoBehaviour
         return m_spinner.getResult();
     }
 
-    //public void SpinWheelForNewTrait(bool _saveAsNewTargetTrait)
-    //{
-    //    // Spin the wheel and get its result
-    //    m_spinner.Spin();
-    //    var spinnerResult = m_spinner.getResult();
-
-    //    // Send the trait to the selection system
-    //    m_personSelector.SetNewSelectingTrait(spinnerResult);
-
-    //    // If this is the start of a new target trait, we also need to save it there
-    //    if (_saveAsNewTargetTrait)
-    //    {
-    //        // Store the new target trait
-    //        m_targetTrait = spinnerResult;
-
-    //        // Update the UI to show the target trait and variation
-    //        var targetDesc = m_personGenerator.GetTargetPersonDesc();
-    //        var targetVariationImg = targetDesc.m_selectedTraits[(int)m_targetTrait].m_variationImg;
-    //        m_tempUI.UpdateTargetVariation(targetVariationImg);
-    //    }
-
-    //    // Update the UI to show what trait we can select with
-    //    m_tempUI.UpdateSelectableTrait(spinnerResult);
-    //}
-
     public void HandleChainCompletion(List<Person> _chain)
     {
         // If the current target trait is still on the spinner (ie: that was the first turn of the new trait), we should take it off
@@ -205,12 +181,22 @@ public class Game_Manager : MonoBehaviour
     public void CalculateLives(List<Person> _chain)
     {
         // Keep track of the number of people the player has cleared and give an extra life if the right amount has been reached
-        m_progressTowardsNextHeart += _chain.Count;
-        if (m_progressTowardsNextHeart >= m_peopleUntilExtraHeart)
+        // Once the heart limit is reached, we should cap their progress towards another one
+        if (m_currentHeartCount < m_maxHearts)
         {
-            // Increase the number of lives and then save the remainder over for the next one
-            m_currentHeartCount += m_progressTowardsNextHeart / m_peopleUntilExtraHeart;
-            m_progressTowardsNextHeart = m_progressTowardsNextHeart % m_peopleUntilExtraHeart;
+            // Increase the progress
+            m_progressTowardsNextHeart += _chain.Count;
+
+            // If the threshold has been reached, move to the next heart
+            if (m_progressTowardsNextHeart >= m_peopleUntilExtraHeart)
+            {
+                // Increase the number of lives and then save the remainder over for the next one
+                m_currentHeartCount += m_progressTowardsNextHeart / m_peopleUntilExtraHeart;
+
+                // If we are JUST NOW over the heart limit, we should cap progress at 0
+                // Otherwise, we should save the remainder over for the next one
+                m_progressTowardsNextHeart = (m_currentHeartCount >= m_maxHearts) ? 0 : m_progressTowardsNextHeart % m_peopleUntilExtraHeart;
+            }
         }
 
         // Check to see if anyone in the chain has the target trait
