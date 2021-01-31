@@ -117,6 +117,7 @@ public class Game_Manager : MonoBehaviour
     {
         // Spin the wheel and get the result
         m_spinner.Spin();
+        m_tempUI.StartSpinner();
         return m_spinner.getResult();
     }
 

@@ -19,7 +19,6 @@ public class Game_TempUI : MonoBehaviour
     public Sprite[] m_availableTraitImageSelections;
     public TextMeshProUGUI[] m_txtTraitProgress;
     public Image[] m_fillTraitProgress;
-
     public Image m_mugshotStarIndicator;
     public Image[] m_mugshotTraitIndicators;
 
@@ -27,6 +26,10 @@ public class Game_TempUI : MonoBehaviour
     public GameObject m_endScreen;
     public GameObject m_victoryMessage;
     public GameObject m_lossMessage;
+
+    [Header("Spinner")]
+    public GameObject m_spinnerCover;
+    public float m_spinnerDuration;
 
     public void UpdateScoreUI(int _newScore)
     {
@@ -145,5 +148,20 @@ public class Game_TempUI : MonoBehaviour
 
         m_victoryMessage.SetActive(_victory);
         m_lossMessage.SetActive(!_victory);
+    }
+
+    public void StartSpinner()
+    {
+        // Show the spinner object
+        m_spinnerCover.SetActive(true);
+
+        // Hide it after a certain amount of time
+        Invoke("EndSpinner", m_spinnerDuration);
+    }
+
+    public void EndSpinner()
+    {
+        // Hide the spinner cover
+        m_spinnerCover.SetActive(false);
     }
 }

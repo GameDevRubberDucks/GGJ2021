@@ -216,7 +216,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &72077810
 RectTransform:
   m_ObjectHideFlags: 0
@@ -962,6 +962,8 @@ MonoBehaviour:
   m_endScreen: {fileID: 272658298}
   m_victoryMessage: {fileID: 1766966436}
   m_lossMessage: {fileID: 720123351}
+  m_spinnerCover: {fileID: 72077809}
+  m_spinnerDuration: 0.5
 --- !u!1 &305564155
 GameObject:
   m_ObjectHideFlags: 0
