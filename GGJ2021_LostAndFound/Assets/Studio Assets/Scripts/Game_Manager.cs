@@ -68,6 +68,7 @@ public class Game_Manager : MonoBehaviour
         m_tempUI.UpdateScoreUI(m_currentScore);
         m_tempUI.UpdateHeartCountUI(m_currentHeartCount, m_progressTowardsNextHeart, m_peopleUntilExtraHeart);
         m_tempUI.UpdateTraitProgress(m_traitProgresses, m_peopleUntilTraitComplete);
+        UpdateMugshotUI();
     }
 
     public void SpinForNewTargetTrait()
@@ -92,9 +93,9 @@ public class Game_Manager : MonoBehaviour
         m_personSelector.SetNewSelectingTrait(result);
 
         // Update the UI to show the target trait and variation
-        var targetDesc = m_personGenerator.GetTargetPersonDesc();
-        var targetVariationImg = targetDesc.m_selectedTraits[(int)m_targetTrait].m_variationImg;
-        m_tempUI.UpdateTargetVariation(targetVariationImg, m_personGenerator.m_possibleCharColours[targetDesc.m_selectedTraits[(int)m_targetTrait].m_variationIndex]);
+        //var targetDesc = m_personGenerator.GetTargetPersonDesc();
+        //var targetVariationImg = targetDesc.m_selectedTraits[(int)m_targetTrait].m_variationImg;
+        //m_tempUI.UpdateTargetVariation(targetVariationImg, m_personGenerator.m_possibleCharColours[targetDesc.m_selectedTraits[(int)m_targetTrait].m_variationIndex]);
     }
 
     public void SpinForNewSelectionTrait()
@@ -156,6 +157,9 @@ public class Game_Manager : MonoBehaviour
             else
                 SpinForNewSelectionTrait();
         }
+
+        // Update the mugshot UI to show any changes to the traits
+        UpdateMugshotUI();
     }
 
     public void CalculateChainScore(List<Person> _chain)
@@ -311,5 +315,35 @@ public class Game_Manager : MonoBehaviour
 
         // If we got here, then all the traits are finished so return true
         return true;
+    }
+
+    private void UpdateMugshotUI()
+    {
+        // Get the target description so we can use all of its information in the mughost
+        var targetDesc = m_personGenerator.GetTargetPersonDesc();
+
+        // Get all of the necessary sprites
+        Sprite[] spriteList = new Sprite[(int)Person_Trait.Num_Traits];
+        for (int i = 0; i < spriteList.Length; i++)
+            spriteList[i] = targetDesc.m_selectedTraits[i].m_variationImg;
+
+        // Determine all of the necessary colours
+        Color[] colorList = new Color[(int)Person_Trait.Num_Traits];
+        for (int i = 0; i < colorList.Length; i++)
+            colorList[i] = m_personGenerator.m_possibleCharColours[targetDesc.m_selectedTraits[i].m_variationIndex];
+
+        // Determine which traits have been completed
+        bool[] completedTraitList = new bool[(int)Person_Trait.Num_Traits];
+        for (int i = 0; i < completedTraitList.Length; i++)
+            completedTraitList[i] = m_traitProgresses[i] >= m_peopleUntilTraitComplete;
+
+        // Determine the target trait
+        Person_Trait targetTrait = m_targetTrait;
+
+        // Determine if all of the traits are filled and we are in the final target state
+        bool allTraitsDone = CheckIfAllTraitsAreComplete();
+
+        // Update the mugshot UI with all of the information
+        m_tempUI.UpdateTargetVariations(spriteList, colorList, completedTraitList, targetTrait, allTraitsDone);
     }
 }
