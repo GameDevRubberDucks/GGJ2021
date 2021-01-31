@@ -304,8 +304,12 @@ public class Game_Manager : MonoBehaviour
         PlayerPrefs.SetInt("FinalScore", m_currentScore);
         PlayerPrefs.SetInt("FinalHeartCount", m_currentHeartCount);
         PlayerPrefs.SetInt("Victory", _victory ? 1 : 0);
+        Invoke("GoToEndScreen", 1.0f);
+    }
+
+    public void GoToEndScreen()
+    {
         SceneManager.LoadScene("End");
-        //m_tempUI.ShowEndScreen(_victory);
     }
 
 

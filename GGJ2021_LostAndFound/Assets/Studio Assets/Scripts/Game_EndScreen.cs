@@ -7,6 +7,9 @@ public class Game_EndScreen : MonoBehaviour
     public GameObject m_lossMsg;
     public TextMeshProUGUI m_scoreText;
 
+    public AudioSource m_winSound;
+    public AudioSource m_lossSound;
+
 
     private void Start()
     {
@@ -17,5 +20,10 @@ public class Game_EndScreen : MonoBehaviour
         m_lossMsg.SetActive(!victory);
 
         m_scoreText.text = "score: " + score.ToString();
+
+        if (victory)
+            m_winSound.Play();
+        else
+            m_lossSound.Play();
     }
 }
