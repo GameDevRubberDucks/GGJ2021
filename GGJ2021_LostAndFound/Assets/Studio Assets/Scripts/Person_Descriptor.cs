@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum Person_Trait
 {
-    Hairstyle,
+    Head,
     Eyes,
     Nose,
     Mouth,
