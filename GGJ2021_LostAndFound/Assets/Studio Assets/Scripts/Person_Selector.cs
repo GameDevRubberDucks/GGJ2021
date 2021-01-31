@@ -94,11 +94,16 @@ public class Person_Selector : MonoBehaviour
 
         // If the person does not have the correct matching trait, they cannot be added and are actually ineligible
         else if (!CheckEligibility(_person))
+        {
             _person.SetSelectionState(Person_SelectedState.Ineligible);
-
+            _person.PlayWrongSelection();
+        }
         // If the person has passed all of the above, they can be added to the selection
         else
+        {
             AddToSelection(_person);
+            _person.PlayRightSelection();
+        }
     }
 
     public bool IsSelecting()
@@ -179,6 +184,7 @@ public class Person_Selector : MonoBehaviour
         {
             Destroy(person.gameObject, 1.0f);
             person.GetComponentInChildren<Animator>().SetTrigger("Delete");
+            person.Playdeleted();
         }
 
         FindObjectOfType<Person_Generator>().GenerateToFillGrid();

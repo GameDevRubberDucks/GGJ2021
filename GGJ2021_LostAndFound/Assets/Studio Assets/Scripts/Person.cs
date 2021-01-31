@@ -24,6 +24,10 @@ public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     public Image m_selectionStateIndicator;
     public Color[] m_indicatorColours = new Color[(int)Person_SelectedState.Num_States];
     public Image m_targetPersonIndicator;
+    public AudioClip[] hoverSounds;
+    public AudioClip selected;
+    public AudioClip wrongSelected;
+    public AudioClip deleted;
 
 
 
@@ -32,7 +36,7 @@ public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     private Person_Selector m_selector;
     private Person_SelectedState m_selectedState;
     private bool m_isTarget;
-
+    private AudioSource AS;
 
 
     //--- Unity Functions ---//
@@ -41,6 +45,7 @@ public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         // Init the private variables
         m_selector = FindObjectOfType<Person_Selector>();
         SetSelectionState(Person_SelectedState.Unselected);
+        AS = GetComponent<AudioSource>();
     }
 
 
@@ -84,6 +89,7 @@ public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     {
         // Try to add this person to the selection when dragging over it, assuming there is actually a selection happening
         // Otherwise, just highlight it
+        PlayingRandHoverSound();
         if (eventData.button == 0)
         {
             if (m_selector.IsSelecting())
@@ -122,4 +128,26 @@ public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
     //--- Getters ---//
     public Person_Descriptor GetDescriptor() { return m_descriptor; }
+
+    //--- Sound behaviour ---//
+    private void PlayingRandHoverSound()
+    {
+        AS.clip = hoverSounds[Random.Range(0, hoverSounds.Length)];
+        AS.Play();
+    }
+    public void PlayWrongSelection()
+    {
+        AS.clip = wrongSelected;
+        AS.Play();
+    }
+    public void PlayRightSelection()
+    {
+        AS.clip = selected;
+        AS.Play();
+    }
+    public void Playdeleted()
+    {
+        AS.clip = deleted;
+        AS.Play();
+    }
 }
