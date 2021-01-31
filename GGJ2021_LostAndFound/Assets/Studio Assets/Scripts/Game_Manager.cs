@@ -25,6 +25,7 @@ public class Game_Manager : MonoBehaviour
     private int m_currentScore;
     private int m_currentHeartCount;
     private int m_progressTowardsNextHeart;
+    private AudioSource AS;
 
 
 
@@ -40,6 +41,7 @@ public class Game_Manager : MonoBehaviour
         m_currentScore = 0;
         m_currentHeartCount = m_numStartingHearts;
         m_progressTowardsNextHeart = 0;
+        AS = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -120,6 +122,7 @@ public class Game_Manager : MonoBehaviour
         // Spin the wheel and get the result
         m_spinner.Spin();
         m_tempUI.StartSpinner();
+        AS.Play();
         return m_spinner.getResult();
     }
 
