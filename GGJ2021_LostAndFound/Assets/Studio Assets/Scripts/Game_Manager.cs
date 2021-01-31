@@ -245,6 +245,9 @@ public class Game_Manager : MonoBehaviour
             // The trait was completed so we should select a new target trait
             traitCompleted = true;
 
+            // Cap the trait so it doesn't go above the max amount
+            m_traitProgresses[targetTraitIndex] = m_peopleUntilTraitComplete;
+
             // TODO: Show feedback for completing the trait
             // ...
 
