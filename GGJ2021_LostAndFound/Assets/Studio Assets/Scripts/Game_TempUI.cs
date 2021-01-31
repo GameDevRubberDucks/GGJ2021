@@ -11,6 +11,8 @@ public class Game_TempUI : MonoBehaviour
     public TextMeshProUGUI m_txtProgressTowardsNextHeart;
     public Image m_fillProgressTowardsNextHeart;
     public Image[] heartContainers;
+    public AudioSource m_heartFillSource;
+    public AudioSource m_heartEmptySource;
 
     [Header("Traits")]
     public Image m_imgTargetVariation;
@@ -51,6 +53,11 @@ public class Game_TempUI : MonoBehaviour
         var anim = heartContainers[_heartID].GetComponent<Animator>();
         string triggerName = (_filled) ? "NewHeart" : "LostHeart";
         anim.SetTrigger(triggerName);
+
+        if (_filled)
+            m_heartFillSource.Play();
+        else
+            m_heartEmptySource.Play();
     }
 
     public void UpdateHeartCountUI(int _numHearts, int _progressTowardsNextHeart, int _peopleUntilNextHeart)
