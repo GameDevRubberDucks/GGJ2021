@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class Game_Manager : MonoBehaviour
@@ -66,7 +67,8 @@ public class Game_Manager : MonoBehaviour
     {
         // Initialize all of the UI elements to show the base values
         m_tempUI.UpdateScoreUI(m_currentScore);
-        m_tempUI.UpdateHeartCountUI(m_currentHeartCount, m_progressTowardsNextHeart, m_peopleUntilExtraHeart);
+        m_tempUI.InitHeartCountUI(m_numStartingHearts);
+        //m_tempUI.UpdateHeartCountUI(m_currentHeartCount, m_progressTowardsNextHeart, m_peopleUntilExtraHeart);
         m_tempUI.UpdateTraitProgress(m_traitProgresses, m_peopleUntilTraitComplete);
         UpdateMugshotUI();
     }
@@ -201,6 +203,9 @@ public class Game_Manager : MonoBehaviour
                 // If we are JUST NOW over the heart limit, we should cap progress at 0
                 // Otherwise, we should save the remainder over for the next one
                 m_progressTowardsNextHeart = (m_currentHeartCount >= m_maxHearts) ? 0 : m_progressTowardsNextHeart % m_peopleUntilExtraHeart;
+
+                // Play feedback animation
+                m_tempUI.ToggleHeart(true, m_currentHeartCount - 1);
             }
         }
 
@@ -217,7 +222,11 @@ public class Game_Manager : MonoBehaviour
 
         // If nobody has the trait, we should lose one life
         if (loseLife)
+        {
             m_currentHeartCount--;
+            // Play feedback animation
+            m_tempUI.ToggleHeart(false, m_currentHeartCount);
+        }
 
         // Update the UI
         m_tempUI.UpdateHeartCountUI(m_currentHeartCount, m_progressTowardsNextHeart, m_peopleUntilExtraHeart);
@@ -241,6 +250,10 @@ public class Game_Manager : MonoBehaviour
         int targetTraitIndex = (int)m_targetTrait;
         m_traitProgresses[targetTraitIndex] += numTargets;
 
+        // Show the feedback for the progress being made
+        if (numTargets != 0)
+            m_tempUI.ShowTraitProgressFeedback(targetTraitIndex, false);
+
         // Determine if the trait was completed or not
         bool traitCompleted = false;
 
@@ -253,8 +266,8 @@ public class Game_Manager : MonoBehaviour
             // Cap the trait so it doesn't go above the max amount
             m_traitProgresses[targetTraitIndex] = m_peopleUntilTraitComplete;
 
-            // TODO: Show feedback for completing the trait
-            // ...
+            // Show feedback for completing the trait
+            m_tempUI.ShowTraitProgressFeedback(targetTraitIndex, true);
 
             // If all of the traits are done, we need to spawn the final target in the next wave of people
             // Also, we will need to reset the spinner to the full list. Otherwise, we need to set the spinner to determine the next target trait
@@ -288,7 +301,8 @@ public class Game_Manager : MonoBehaviour
         PlayerPrefs.SetInt("FinalScore", m_currentScore);
         PlayerPrefs.SetInt("FinalHeartCount", m_currentHeartCount);
         PlayerPrefs.SetInt("Victory", _victory ? 1 : 0);
-        m_tempUI.ShowEndScreen(_victory);
+        SceneManager.LoadScene("End");
+        //m_tempUI.ShowEndScreen(_victory);
     }
 
 

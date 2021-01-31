@@ -30,10 +30,27 @@ public class Game_TempUI : MonoBehaviour
     [Header("Spinner")]
     public GameObject m_spinnerCover;
     public float m_spinnerDuration;
+    public Animator m_spinnerFeedbackAnimator;
 
     public void UpdateScoreUI(int _newScore)
     {
         m_txtScore.text = _newScore.ToString();
+    }
+
+    public void InitHeartCountUI(int _startHeartCount)
+    {
+        for (int i = 0; i < heartContainers.Length; i++)
+        {
+            if (i < _startHeartCount)
+                heartContainers[i].GetComponent<Animator>().SetTrigger("NewHeart");
+        }
+    }
+
+    public void ToggleHeart(bool _filled, int _heartID)
+    {
+        var anim = heartContainers[_heartID].GetComponent<Animator>();
+        string triggerName = (_filled) ? "NewHeart" : "LostHeart";
+        anim.SetTrigger(triggerName);
     }
 
     public void UpdateHeartCountUI(int _numHearts, int _progressTowardsNextHeart, int _peopleUntilNextHeart)
@@ -50,8 +67,6 @@ public class Game_TempUI : MonoBehaviour
             else
                 //empty color
                 heartContainers[i].color = new Color(77.0f / 255.0f, 59.0f / 255.0f, 79.0f / 255.0f);
-
-
         }
 
     }
@@ -142,6 +157,12 @@ public class Game_TempUI : MonoBehaviour
         }
     }
 
+    public void ShowTraitProgressFeedback(int _traitIndex, bool _completed)
+    {
+        string trigger = (_completed) ? "ShowCompleted" : "ShowProgress";
+        m_fillTraitProgress[_traitIndex].GetComponentInParent<Animator>().SetTrigger(trigger);
+    }
+
     public void ShowEndScreen(bool _victory)
     {
         m_endScreen.SetActive(true);
@@ -163,5 +184,8 @@ public class Game_TempUI : MonoBehaviour
     {
         // Hide the spinner cover
         m_spinnerCover.SetActive(false);
+
+        // Perform the feedback animation
+        m_spinnerFeedbackAnimator.SetTrigger("ShowFeedback");
     }
 }
