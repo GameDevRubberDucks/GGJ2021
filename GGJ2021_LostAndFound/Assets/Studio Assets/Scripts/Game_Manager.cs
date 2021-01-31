@@ -249,6 +249,10 @@ public class Game_Manager : MonoBehaviour
         int targetTraitIndex = (int)m_targetTrait;
         m_traitProgresses[targetTraitIndex] += numTargets;
 
+        // Show the feedback for the progress being made
+        if (numTargets != 0)
+            m_tempUI.ShowTraitProgressFeedback(targetTraitIndex, false);
+
         // Determine if the trait was completed or not
         bool traitCompleted = false;
 
@@ -261,8 +265,8 @@ public class Game_Manager : MonoBehaviour
             // Cap the trait so it doesn't go above the max amount
             m_traitProgresses[targetTraitIndex] = m_peopleUntilTraitComplete;
 
-            // TODO: Show feedback for completing the trait
-            // ...
+            // Show feedback for completing the trait
+            m_tempUI.ShowTraitProgressFeedback(targetTraitIndex, true);
 
             // If all of the traits are done, we need to spawn the final target in the next wave of people
             // Also, we will need to reset the spinner to the full list. Otherwise, we need to set the spinner to determine the next target trait

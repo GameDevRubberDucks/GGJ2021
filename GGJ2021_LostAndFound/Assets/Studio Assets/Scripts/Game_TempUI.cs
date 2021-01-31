@@ -66,8 +66,6 @@ public class Game_TempUI : MonoBehaviour
             else
                 //empty color
                 heartContainers[i].color = new Color(77.0f / 255.0f, 59.0f / 255.0f, 79.0f / 255.0f);
-
-
         }
 
     }
@@ -156,6 +154,12 @@ public class Game_TempUI : MonoBehaviour
             m_txtTraitProgress[i].text = _traitCounters[i].ToString() + " / " + _numToCompleteTrait.ToString();
             m_fillTraitProgress[i].fillAmount = (float)_traitCounters[i] / (float)_numToCompleteTrait;
         }
+    }
+
+    public void ShowTraitProgressFeedback(int _traitIndex, bool _completed)
+    {
+        string trigger = (_completed) ? "ShowCompleted" : "ShowProgress";
+        m_fillTraitProgress[_traitIndex].GetComponentInParent<Animator>().SetTrigger(trigger);
     }
 
     public void ShowEndScreen(bool _victory)
