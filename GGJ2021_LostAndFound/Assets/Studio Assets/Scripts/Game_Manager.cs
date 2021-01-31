@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class Game_Manager : MonoBehaviour
@@ -300,7 +301,8 @@ public class Game_Manager : MonoBehaviour
         PlayerPrefs.SetInt("FinalScore", m_currentScore);
         PlayerPrefs.SetInt("FinalHeartCount", m_currentHeartCount);
         PlayerPrefs.SetInt("Victory", _victory ? 1 : 0);
-        m_tempUI.ShowEndScreen(_victory);
+        SceneManager.LoadScene("End");
+        //m_tempUI.ShowEndScreen(_victory);
     }
 
 
