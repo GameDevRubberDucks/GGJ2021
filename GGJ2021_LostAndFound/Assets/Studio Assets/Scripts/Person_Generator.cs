@@ -13,6 +13,7 @@ public class Person_Generator : MonoBehaviour
     //--- Public Variables ---//
     public GameObject m_personPrefab;
     public Grid_Manager m_gridManager;
+    public Color[] m_possibleCharColours;
     public List<Person_TraitVariations> m_traitDescs = new List<Person_TraitVariations>((int)Person_Trait.Num_Traits);
 
 
@@ -20,6 +21,7 @@ public class Person_Generator : MonoBehaviour
     //--- Private Variables ---//
     private Person_Descriptor m_targetPersonDesc;
     private bool m_shouldSpawnTarget;
+    private bool m_hasAlreadySpawnedTarget;
 
 
 
@@ -28,6 +30,7 @@ public class Person_Generator : MonoBehaviour
     {
         // Init the private variables
         m_shouldSpawnTarget = false;
+        m_hasAlreadySpawnedTarget = false;
     }
 
 
@@ -52,6 +55,7 @@ public class Person_Generator : MonoBehaviour
         {
             // If we are creating the final target, just use their traits
             newDesc = m_targetPersonDesc;
+            m_hasAlreadySpawnedTarget = true;
         }
         else
         {
@@ -116,7 +120,9 @@ public class Person_Generator : MonoBehaviour
     public void SpawnFinalTarget()
     {
         // Set the flag so when we next generate people, we include the final target
-        m_shouldSpawnTarget = true;
+        // Don't set the flag if the target has already spawned though, as we only want them once
+        if (!m_hasAlreadySpawnedTarget)
+            m_shouldSpawnTarget = true;
     }
 
 
@@ -139,6 +145,9 @@ public class Person_Generator : MonoBehaviour
             newDesc.m_selectedTraits[traitIndex].m_variationIndex = randomVariationIndex;
             newDesc.m_selectedTraits[traitIndex].m_variationImg = randomVariationImg;
         }
+
+        // Randomly select a colour
+        newDesc.m_colour = m_possibleCharColours[Random.Range(0, m_possibleCharColours.Length)];
        
         // Return the generated descriptor
         return newDesc;

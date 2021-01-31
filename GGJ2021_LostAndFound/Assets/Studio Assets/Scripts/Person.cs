@@ -18,6 +18,8 @@ public enum Person_SelectedState
 public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     //--- Public Variables ---//
+    public Image m_headImg;
+    public Image m_bodyImg;
     public Image[] m_traitRenderers = new Image[(int)Person_Trait.Num_Traits];
     public Image m_selectionStateIndicator;
     public Color[] m_indicatorColours = new Color[(int)Person_SelectedState.Num_States];
@@ -53,6 +55,17 @@ public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         m_targetPersonIndicator.gameObject.SetActive(this.m_descriptor.m_isFinalTarget);
         foreach (var traitInfo in m_descriptor.m_selectedTraits)
             m_traitRenderers[(int)traitInfo.m_trait].sprite = traitInfo.m_variationImg;
+
+        // Apply the colours to the head and body
+        m_headImg.color = _descriptor.m_colour;
+        m_bodyImg.color = _descriptor.m_colour;
+
+        // Apply the colours to all of the traits, EXCEPT for the eyes
+        for (int i = 0; i < m_traitRenderers.Length; i++)
+        {
+            if ((Person_Trait)i != Person_Trait.Eyes)
+                m_traitRenderers[i].color = _descriptor.m_colour;
+        }
     }
 
     public void SetSelectionState(Person_SelectedState _state)
@@ -68,30 +81,38 @@ public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     {
         // Try to add this person to the selection when dragging over it, assuming there is actually a selection happening
         // Otherwise, just highlight it
-        if (m_selector.IsSelecting())
-            m_selector.TryToAddSelection(this);
-        else
-            SetSelectionState(Person_SelectedState.Highlighted);
+        if (eventData.button == 0)
+        {
+            if (m_selector.IsSelecting())
+                m_selector.TryToAddSelection(this);
+            else
+                SetSelectionState(Person_SelectedState.Highlighted);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         // If not selected, just revert to the standard non-highlighted state
         // Otherwise, stay selected
-        if (m_selectedState == Person_SelectedState.Highlighted || m_selectedState == Person_SelectedState.Ineligible)
-            SetSelectionState(Person_SelectedState.Unselected);
+        if (eventData.button == 0)
+        {
+            if (m_selectedState == Person_SelectedState.Highlighted || m_selectedState == Person_SelectedState.Ineligible)
+                SetSelectionState(Person_SelectedState.Unselected);
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         // Begin a new selection by clicking, with this person as the first element
-        m_selector.StartNewSelection(this);
+        if (eventData.button == 0)
+            m_selector.StartNewSelection(this);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         // Submit the selection to the game systems when releasing the mouse button
-        m_selector.SubmitSelection();
+        if (eventData.button == 0)
+            m_selector.SubmitSelection();
     }
 
 

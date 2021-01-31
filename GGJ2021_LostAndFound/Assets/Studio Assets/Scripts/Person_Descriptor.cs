@@ -3,11 +3,11 @@ using UnityEngine;
 
 public enum Person_Trait
 {
-    Hairstyle,
+    Head,
     Eyes,
     Nose,
     Mouth,
-    Shirt,
+    Ears,
 
     Num_Traits
 }
@@ -25,6 +25,7 @@ public class Person_Descriptor
     public Person_TraitImg[] m_selectedTraits;
     public Vector2Int m_gridLoc;
     public bool m_isFinalTarget;
+    public Color m_colour;
 
 
 
@@ -34,6 +35,7 @@ public class Person_Descriptor
         m_selectedTraits = new Person_TraitImg[(int)Person_Trait.Num_Traits];
         m_gridLoc = Vector2Int.zero;
         m_isFinalTarget = false;
+        m_colour = Color.white;
     }
 
     
@@ -47,6 +49,10 @@ public class Person_Descriptor
             if (m_selectedTraits[i].m_variationIndex != _other.m_selectedTraits[i].m_variationIndex)
                 return false;
         }
+
+        // Also compare the colours
+        if (m_colour != _other.m_colour)
+            return false;
         
         // If there are no differences at all, return true since they are completely equivalent
         return true;

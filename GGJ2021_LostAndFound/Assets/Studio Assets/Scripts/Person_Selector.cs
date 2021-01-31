@@ -27,6 +27,13 @@ public class Person_Selector : MonoBehaviour
         UpdateSelectionLine();
     }
 
+    private void Update()
+    {
+        // Right click to clear the entire selection
+        if (Input.GetMouseButton(1))
+            ClearSelection(true);
+    }
+
 
 
     //--- Methods ---//
