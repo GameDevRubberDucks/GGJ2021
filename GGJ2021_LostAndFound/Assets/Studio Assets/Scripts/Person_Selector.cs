@@ -5,6 +5,7 @@ public class Person_Selector : MonoBehaviour
 {
     //--- Private Variables ---//
     private Game_Manager m_gameManager;
+    private Game_TempUI m_tempUI;
     private LineRenderer m_selectionLineRenderer;
     private List<Person> m_selectedPeople;
     private Person_Trait m_currentSelectingTrait;
@@ -17,6 +18,7 @@ public class Person_Selector : MonoBehaviour
     {
         // Init the private variables
         m_gameManager = FindObjectOfType<Game_Manager>();
+        m_tempUI = FindObjectOfType<Game_TempUI>();
         m_selectionLineRenderer = GetComponent<LineRenderer>();
         m_selectedPeople = new List<Person>();
         m_currentSelectingVariation = -1;
@@ -73,11 +75,6 @@ public class Person_Selector : MonoBehaviour
         // If the person is in the chain already, we can't add them to the selection 
         if (m_selectedPeople.Contains(_person))
         {
-            // Instead, if they are the second to last person in the chain, we need to eliminate the current chain end
-            // This is because the player is backtracking and trying to undo a bit of their chain
-            //if (m_selectedPeople.IndexOf(_person) == m_selectedPeople.Count - 2)
-            //    RemoveFromSelection(m_selectedPeople[m_selectedPeople.Count - 1]);
-
             // Instead, we should clear the selection all the way to that point
             int indexOfPerson = m_selectedPeople.IndexOf(_person);
             while (m_selectedPeople.Count > (indexOfPerson + 1))
@@ -104,7 +101,8 @@ public class Person_Selector : MonoBehaviour
 
     public void SetNewSelectingTrait(Person_Trait _newTrait)
     {
-        Debug.Log("Now selecting: " + _newTrait.ToString());
+        // Update the UI to show what trait we can select with
+        m_tempUI.UpdateSelectableTrait(_newTrait);
         m_currentSelectingTrait = _newTrait;
     }
 

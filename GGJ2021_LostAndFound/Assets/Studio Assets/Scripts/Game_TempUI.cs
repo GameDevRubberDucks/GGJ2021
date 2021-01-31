@@ -39,14 +39,14 @@ public class Game_TempUI : MonoBehaviour
 
     public void UpdateSelectableTrait(Person_Trait _selectTrait)
     {
-        m_selectionTrait.text = "SELECTING: " + m_selectionTrait;
+        m_selectionTrait.text = "SELECTING: " + _selectTrait.ToString();
     }
 
     public void UpdateTraitProgress(int[] _traitCounters, int _numToCompleteTrait)
     {
         for (int i = 0; i < _traitCounters.Length; i++)
         {
-            m_txtTraitProgress[i].text = ((Person_Trait)i).ToString() + ": " + _traitCounters[i].ToString() + " / ";
+            m_txtTraitProgress[i].text = ((Person_Trait)i).ToString() + ": " + _traitCounters[i].ToString() + " / " + _numToCompleteTrait.ToString();
         }
     }
 

@@ -66,7 +66,6 @@ public class SlotWheelManager : MonoBehaviour
             availableElements[i].GetComponent<SlotElement>().trait = (Person_Trait)i;
             availableElements[i].GetComponent<SlotElement>().setLabel();
         }
-
     }
 
     public void deleteTrait(Person_Trait t)
@@ -76,6 +75,7 @@ public class SlotWheelManager : MonoBehaviour
             if (availableElements[i] != null && availableElements[i].GetComponent<SlotElement>().trait == t)
             {
                 Destroy(availableElements[i]);
+                availableElements[i] = null;
             }
         }
     }
