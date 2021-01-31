@@ -24,6 +24,7 @@ public class Person_Descriptor
     //--- Public Variables ---//
     public Person_TraitImg[] m_selectedTraits;
     public Vector2Int m_gridLoc;
+    public bool m_isFinalTarget;
 
 
 
@@ -32,6 +33,7 @@ public class Person_Descriptor
     {
         m_selectedTraits = new Person_TraitImg[(int)Person_Trait.Num_Traits];
         m_gridLoc = Vector2Int.zero;
+        m_isFinalTarget = false;
     }
 
     

@@ -28,6 +28,7 @@ public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     private Person_Descriptor m_descriptor;
     private Person_Selector m_selector;
     private Person_SelectedState m_selectedState;
+    private bool m_isTarget;
 
 
 

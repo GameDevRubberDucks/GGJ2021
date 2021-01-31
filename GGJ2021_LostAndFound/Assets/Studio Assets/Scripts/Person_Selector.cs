@@ -3,14 +3,11 @@ using System.Collections.Generic;
 
 public class Person_Selector : MonoBehaviour
 {
-    //--- Public Variables ---//
-
-
-
     //--- Private Variables ---//
+    private Game_Manager m_gameManager;
     private LineRenderer m_selectionLineRenderer;
     private List<Person> m_selectedPeople;
-    [SerializeField]private Person_Trait m_currentSelectingTrait; // TEMP: Serialized for now, will need to be connected to the spinner
+    private Person_Trait m_currentSelectingTrait;
     private int m_currentSelectingVariation;
 
 
@@ -19,6 +16,7 @@ public class Person_Selector : MonoBehaviour
     private void Awake()
     {
         // Init the private variables
+        m_gameManager = FindObjectOfType<Game_Manager>();
         m_selectionLineRenderer = GetComponent<LineRenderer>();
         m_selectedPeople = new List<Person>();
         m_currentSelectingVariation = -1;
@@ -46,10 +44,16 @@ public class Person_Selector : MonoBehaviour
     public void SubmitSelection()
     {
         // If there is only one person selected, we can't submit so just clear the selection
+        // Otherwise, we should send the selection to the game manager to calculate points, lives, etc
         if (m_selectedPeople.Count <= 1)
+        {
             ClearSelection(true);
+        }
         else
+        {
+            m_gameManager.HandleChainCompletion(m_selectedPeople);
             DeleteAllInSelection();
+        }
     }
 
     public void ClearSelection(bool _markAsUnselected = false)
@@ -96,6 +100,20 @@ public class Person_Selector : MonoBehaviour
     public bool IsSelecting()
     {
         return m_selectedPeople.Count > 0;
+    }
+
+    public void SetNewSelectingTrait(Person_Trait _newTrait)
+    {
+        Debug.Log("Now selecting: " + _newTrait.ToString());
+        m_currentSelectingTrait = _newTrait;
+    }
+
+    public void SkipTurn()
+    {
+        // We can force the turn to skip by submitting an empty chain
+        // This should really only be used by the player if the can't find a match
+        // This should be *really* rare, but if we don't have it, the game would soft-lock
+        m_gameManager.HandleChainCompletion(new List<Person>());
     }
 
 
