@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Studio Assets/Scenes/Menu.unity
     guid: d5e33f4acb11e034e8cfdcdbb712489a
   - enabled: 1
-    path: Assets/Studio Assets/Scenes/Dan.unity
+    path: Assets/Studio Assets/Scenes/Dan_Debug.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}
