@@ -284,6 +284,10 @@ public class Game_Manager : MonoBehaviour
 
     public void EndGame(bool _victory)
     {
+        // Store the score and victory condition into the player prefs so they can be accessed in the game over screen
+        PlayerPrefs.SetInt("FinalScore", m_currentScore);
+        PlayerPrefs.SetInt("FinalHeartCount", m_currentHeartCount);
+        PlayerPrefs.SetInt("Victory", _victory ? 1 : 0);
         m_tempUI.ShowEndScreen(_victory);
     }
 
