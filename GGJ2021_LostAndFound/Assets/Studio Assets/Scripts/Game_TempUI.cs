@@ -30,6 +30,7 @@ public class Game_TempUI : MonoBehaviour
     [Header("Spinner")]
     public GameObject m_spinnerCover;
     public float m_spinnerDuration;
+    public Animator m_spinnerFeedbackAnimator;
 
     public void UpdateScoreUI(int _newScore)
     {
@@ -183,5 +184,8 @@ public class Game_TempUI : MonoBehaviour
     {
         // Hide the spinner cover
         m_spinnerCover.SetActive(false);
+
+        // Perform the feedback animation
+        m_spinnerFeedbackAnimator.SetTrigger("ShowFeedback");
     }
 }
