@@ -57,14 +57,17 @@ public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             m_traitRenderers[(int)traitInfo.m_trait].sprite = traitInfo.m_variationImg;
 
         // Apply the colours to the head and body
-        m_headImg.color = _descriptor.m_colour;
-        m_bodyImg.color = _descriptor.m_colour;
+        //m_headImg.color = _descriptor.m_colour;
+        //m_bodyImg.color = _descriptor.m_colour;
+
+        var personGenerator = FindObjectOfType<Person_Generator>();
 
         // Apply the colours to all of the traits, EXCEPT for the eyes
         for (int i = 0; i < m_traitRenderers.Length; i++)
         {
             if ((Person_Trait)i != Person_Trait.Eyes)
-                m_traitRenderers[i].color = _descriptor.m_colour;
+                //m_traitRenderers[i].color = _descriptor.m_colour;
+                m_traitRenderers[i].color = personGenerator.m_possibleCharColours[_descriptor.m_selectedTraits[i].m_variationIndex];
         }
     }
 
