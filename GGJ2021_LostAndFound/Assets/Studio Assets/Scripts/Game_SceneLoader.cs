@@ -13,4 +13,9 @@ public class Game_SceneLoader : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+    
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
