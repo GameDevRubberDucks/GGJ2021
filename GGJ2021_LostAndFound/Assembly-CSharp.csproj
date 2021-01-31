@@ -64,6 +64,8 @@
     <Compile Include="Assets\Studio Assets\Scripts\Person_Generator.cs" />
     <Compile Include="Assets\Studio Assets\Scripts\SlotWheel\SlotElement.cs" />
     <Compile Include="Assets\Studio Assets\Scripts\Game_Manager.cs" />
+    <Compile Include="Assets\Studio Assets\Scripts\Game_TempUI.cs" />
+    <Compile Include="Assets\Studio Assets\Scripts\Game_SceneLoader.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Studio Assets\Audio\PLACEHOLDER.txt" />

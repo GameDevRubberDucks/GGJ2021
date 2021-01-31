@@ -98,6 +98,9 @@ public class Person_Generator : MonoBehaviour
             // Fill in the remaining spots after with more randomly generated people
             for (int i = finalTargetIndex + 1; i < numSlots; i++)
                 newPeople.Add(GenerateNewPerson(false));
+
+            // Reset the flag
+            m_shouldSpawnTarget = false;
         }
         else
         {

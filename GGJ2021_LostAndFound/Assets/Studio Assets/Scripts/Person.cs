@@ -21,6 +21,7 @@ public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     public Image[] m_traitRenderers = new Image[(int)Person_Trait.Num_Traits];
     public Image m_selectionStateIndicator;
     public Color[] m_indicatorColours = new Color[(int)Person_SelectedState.Num_States];
+    public Image m_targetPersonIndicator;
 
 
 
@@ -49,6 +50,7 @@ public class Person : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         this.m_descriptor = _descriptor;
 
         // Update the visuals
+        m_targetPersonIndicator.gameObject.SetActive(this.m_descriptor.m_isFinalTarget);
         foreach (var traitInfo in m_descriptor.m_selectedTraits)
             m_traitRenderers[(int)traitInfo.m_trait].sprite = traitInfo.m_variationImg;
     }
