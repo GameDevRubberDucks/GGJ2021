@@ -3868,7 +3868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_numStartingHearts: 3
-  m_peopleUntilExtraHeart: 20
+  m_peopleUntilExtraHeart: 15
   m_maxHearts: 6
   m_peopleUntilTraitComplete: 10
   m_scorePerPerson: 100
@@ -4030,7 +4030,7 @@ MonoBehaviour:
 
     ---
 
-    20'
+    15'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c4ef532a058f7c846bb3ac36c3d17c39, type: 2}
   m_sharedMaterial: {fileID: -3586848614393338984, guid: c4ef532a058f7c846bb3ac36c3d17c39, type: 2}
@@ -6594,7 +6594,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00018310547, y: 0.000061035156}
+  m_AnchoredPosition: {x: 0.00012207031, y: 0.000061035156}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 1, y: 1}
 --- !u!1 &1688805104
