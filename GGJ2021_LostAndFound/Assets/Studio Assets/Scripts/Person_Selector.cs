@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 public class Person_Selector : MonoBehaviour
 {
+    //--- Public Variables ---//
+    public Color m_selectionOkay;
+    public Color m_selectionInvalid;
+
+
+
     //--- Private Variables ---//
     private Game_Manager m_gameManager;
     private Game_TempUI m_tempUI;
@@ -54,7 +60,7 @@ public class Person_Selector : MonoBehaviour
     {
         // If there is only one person selected, we can't submit so just clear the selection
         // Otherwise, we should send the selection to the game manager to calculate points, lives, etc
-        if (m_selectedPeople.Count <= 1)
+        if (m_selectedPeople.Count <= 2)
         {
             ClearSelection(true);
         }
@@ -194,11 +200,26 @@ public class Person_Selector : MonoBehaviour
 
     private void UpdateSelectionLine()
     {
-        // Update the line renderer to fit the new number of selection points
-        m_selectionLineRenderer.positionCount = m_selectedPeople.Count;
+        // If there is only one point, double it to make a little block
+        if (m_selectedPeople.Count == 1)
+        {
+            m_selectionLineRenderer.positionCount = 2;
+            m_selectionLineRenderer.SetPosition(0, m_selectedPeople[0].transform.position);
+            m_selectionLineRenderer.SetPosition(1, m_selectedPeople[0].transform.position);
+        }
+        else
+        {
+            // Update the line renderer to fit the new number of selection points
+            m_selectionLineRenderer.positionCount = m_selectedPeople.Count;
 
-        // Set all of the points in the line
-        for (int i = 0; i < m_selectedPeople.Count; i++)
-            m_selectionLineRenderer.SetPosition(i, m_selectedPeople[i].transform.position);
+            // Set all of the points in the line
+            for (int i = 0; i < m_selectedPeople.Count; i++)
+                m_selectionLineRenderer.SetPosition(i, m_selectedPeople[i].transform.position);
+        }
+
+        // Change the colour to indicate if the selection will work or not
+        Color lineColor = (m_selectedPeople.Count > 2) ? m_selectionOkay : m_selectionInvalid;
+        m_selectionLineRenderer.startColor = lineColor;
+        m_selectionLineRenderer.endColor = lineColor;
     }
 }

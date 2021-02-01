@@ -3868,9 +3868,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_numStartingHearts: 3
-  m_peopleUntilExtraHeart: 10
+  m_peopleUntilExtraHeart: 20
   m_maxHearts: 6
-  m_peopleUntilTraitComplete: 5
+  m_peopleUntilTraitComplete: 10
   m_scorePerPerson: 100
   m_targetVariationMultiplier: 2
 --- !u!82 &925636088
@@ -4030,7 +4030,7 @@ MonoBehaviour:
 
     ---
 
-    10'
+    20'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c4ef532a058f7c846bb3ac36c3d17c39, type: 2}
   m_sharedMaterial: {fileID: -3586848614393338984, guid: c4ef532a058f7c846bb3ac36c3d17c39, type: 2}
@@ -8136,8 +8136,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.24705882, g: 0.6117647, b: 0.17254902, a: 1}
+      key1: {r: 0.24705884, g: 0.6117647, b: 0.17254902, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -8183,6 +8183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b91997ee84d19e44a7e24aa1e6d7f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_selectionOkay: {r: 0.24705882, g: 0.6117647, b: 0.17254902, a: 1}
+  m_selectionInvalid: {r: 0.9137255, g: 0.21176471, b: 0.16862746, a: 1}
 --- !u!1 &2010818289
 GameObject:
   m_ObjectHideFlags: 0
