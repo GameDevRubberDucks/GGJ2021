@@ -24,6 +24,18 @@ public class Grid_Layout : ScriptableObject
             }
         }
 
+        // TEMP: Not sure exacty why but the columns are upside down so we need to reverse them
+        for(int i = 0; i < cols.Length; i++)
+        {
+            var colBaseStr = cols[i];
+            var colReversedStr = "";
+
+            for (int j = colBaseStr.Length - 1; j >= 0; j--)
+                colReversedStr += colBaseStr[j];
+
+            cols[i] = colReversedStr;
+        }
+
         return cols;
     }
 

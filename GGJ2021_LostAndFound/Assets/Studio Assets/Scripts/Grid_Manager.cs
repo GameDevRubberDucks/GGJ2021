@@ -236,8 +236,43 @@ public class Grid_Manager : MonoBehaviour
         return true;
     }
 
+    public void ShufflePeopleDown()
+    {
+        // Shuffle everyone one column at a time
+        foreach(var col in m_gridCols)
+        {
+            // Start from the bottom of the column and slowly slide people down if there is an empty gap below
+            //for(int thisCellIdx = col.Count - 1; thisCellIdx >= 0; thisCellIdx--) 
+            for (int thisCellIdx = 0; thisCellIdx < col.Count; thisCellIdx++)
+            {
+                // Only try to slide the person if the cell is actually active and currently holds someone
+                var thisCellObj = col[thisCellIdx];
+                if (thisCellObj.CellType == Grid_CellType.Available && thisCellObj.Person != null)
+                {
+                    // If there is in fact someone in the cell, we need to search below it to see if there is a new slot to move into
+                    // Start from the bottom of the column and work our way up. The first open slot we find would be the bottom one
+                    //for (int nextCellIdx = col.Count - 1; nextCellIdx > thisCellIdx; nextCellIdx--)
+                    for (int nextCellIdx = 0; nextCellIdx < thisCellIdx; nextCellIdx++)
+                    {
+                        // If the slot is open and active, we can move this person down into it and then move to the next cell
+                        var nextCellObj = col[nextCellIdx];
+                        if (nextCellObj.IsOpen)
+                        {
+                            // Move the person from this cell to the next one
+                            nextCellObj.Person = thisCellObj.Person;
+                            thisCellObj.Person = null;
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+
     public void UpdateGridPlacements()
     {
+        ShufflePeopleDown();
+
         // Determine the position of the bottom left of the grid so all objects can be placed relative to it
         Vector2 gridParentPos = this.GetComponent<RectTransform>().anchoredPosition;
         float halfGridSize = (m_gridCellSize * m_gridSize / 2.0f) - (m_gridCellSize / 2.0f) + (m_gridSpacing * m_gridSize / 2.0f) - (m_gridSpacing / 2.0f);
